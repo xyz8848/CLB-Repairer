@@ -27,7 +27,7 @@ jobs:
         (Get-Content main.cpp) | ForEach-Object { $_ -replace 'git_short_hash = "unknown"', "git_short_hash = `"$short_hash`"" } | Set-Content main.cpp
       
     - name: Build the project
-      run: g++ main.cpp -o CLBRepairer.exe -static -fexec-charset=GBK
+      run: g++ main.cpp -o CLBRepairer.exe -static
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3

@@ -22,11 +22,10 @@ int main()
     LONG result = ChangeDisplaySettings(&dm, CDS_UPDATEREGISTRY);
     if (result == DISP_CHANGE_SUCCESSFUL)
     {
-        MessageBox(NULL, "分辨率已设置为1920x1080，缩放设置为100%。", "成功", MB_OK);
-    }
+        MessageBox(NULL, "The resolution has been set to 1920x1080, and the scaling has been set to 100%.", "Success", MB_OK);    }
     else
     {
-        MessageBox(NULL, "无法更改分辨率。", "错误", MB_OK | MB_ICONERROR);
+        MessageBox(NULL, "Unable to change the resolution.", "Error", MB_OK | MB_ICONERROR);
     }
     return 0;
 }
