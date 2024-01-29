@@ -1,0 +1,37 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install g++
+      run: choco install mingw
+
+    - name: Get Git branch and short hash
+      run: |
+        $branch = git rev-parse --abbrev-ref HEAD
+        $short_hash = git rev-parse --short HEAD
+
+    - name: Update main.cpp with Git branch and short hash
+      run: |
+        (Get-Content main.cpp) | ForEach-Object { $_ -replace 'git_branch = "unknown"', "git_branch = `"$branch`"" } | Set-Content main.cpp
+        (Get-Content main.cpp) | ForEach-Object { $_ -replace 'git_short_hash = "unknown"', "git_short_hash = `"$short_hash`"" } | Set-Content main.cpp
+      
+    - name: Build the project
+      run: g++ main.cpp -o CLBRepairer.exe -static -fexec-charset=GBK
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: CLBRepairer
+        path: |
+          CLBRepairer.exe
